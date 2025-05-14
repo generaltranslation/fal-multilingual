@@ -4,6 +4,7 @@ import { getRandomSuggestions, Suggestion } from "@/lib/suggestions";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { useGT } from "gt-next/client";
 
 type QualityMode = "performance" | "quality";
 
@@ -22,6 +23,7 @@ export function PromptInput({
   isLoading,
   onSubmit,
 }: PromptInputProps) {
+  const t = useGT();
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestion[]>(initSuggestions);
 
@@ -60,7 +62,7 @@ export function PromptInput({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Enter your prompt here"
+            placeholder={t("Enter your prompt here")}
             rows={3}
             className="text-base bg-transparent border-none p-0 resize-none placeholder:text-zinc-500 text-[#111111] focus-visible:ring-0 focus-visible:ring-offset-0"
           />

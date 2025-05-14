@@ -1,0 +1,9 @@
+{
+  "framework": "next-app",
+  "defaultLocale": "en",
+  "locales": [
+    "zh",
+    "ru",
+    "es"
+  ]
+}
