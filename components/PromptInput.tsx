@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowUpRight, ArrowUp, RefreshCw } from "lucide-react";
-import { getRandomSuggestions, Suggestion } from "@/lib/suggestions";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { useGT } from "gt-next/client";
 
 type QualityMode = "performance" | "quality";
 
@@ -14,20 +14,168 @@ interface PromptInputProps {
   onToggleProviders: () => void;
   mode: QualityMode;
   onModeChange: (mode: QualityMode) => void;
-  suggestions: Suggestion[];
+}
+
+export interface Suggestion {
+  text: string;
+  prompt: string;
+}
+
+const artStyles = ["anime", "art nouveau", "ukiyo-e", "watercolor"];
+
+export function useBasePrompts(): Suggestion[] {
+  const t = useGT();
+  const basePrompts: { text: string; prompt: string }[] = [
+    {
+      text: t("Salamander Dusk"),
+      prompt: "A salamander at dusk in a forest pond",
+    },
+    {
+      text: t("Sultry Chicken"),
+      prompt:
+        "A sultry chicken peering around the corner from shadows, clearly up to no good",
+    },
+    {
+      text: t("Cat Vercel"),
+      prompt: "A cat launching its website on Vercel",
+    },
+    {
+      text: t("Red Panda"),
+      prompt:
+        "A red panda sipping tea under cherry blossoms at sunset with Mount Fuji in the background",
+    },
+    {
+      text: t("Beach Otter"),
+      prompt: "A mischievous otter surfing the waves in Bali at golden hour",
+    },
+    {
+      text: t("Badger Ramen"),
+      prompt: "A pensive honey badger eating a bowl of ramen in Osaka",
+    },
+    {
+      text: t("Zen Frog"),
+      prompt:
+        "A frog meditating on a lotus leaf in a tranquil forest pond at dawn, surrounded by fireflies",
+    },
+    {
+      text: t("Macaw Love"),
+      prompt:
+        "A colorful macaw delivering a love letter, flying over the Grand Canyon at sunrise",
+    },
+    {
+      text: t("Fox Painting"),
+      prompt: "A fox walking through a field of lavender with a golden sunset",
+    },
+    {
+      text: t("Armadillo Aerospace"),
+      prompt:
+        "An armadillo in a rocket at countdown preparing to blast off to Mars",
+    },
+    {
+      text: t("Penguin Delight"),
+      prompt: "A penguin in pajamas eating ice cream while watching television",
+    },
+    {
+      text: t("Echidna Library"),
+      prompt:
+          "An echidna reading a book in a cozy library built into the branches of a eucalyptus tree",
+    },
+    {
+      text: t("Capybara Onsen"),
+      prompt:
+        "A capybara relaxing in a hot spring surrounded by snow-covered mountains with a waterfall in the background",
+    },
+    {
+      text: t("Lion Throne"),
+      prompt:
+        "A regal lion wearing a crown, sitting on a throne in a jungle palace, with waterfalls in the distance",
+    },
+    {
+      text: t("Dolphin Glow"),
+      prompt:
+        "A dolphin leaping through a glowing ring of bioluminescence under a starry sky",
+    },
+    {
+      text: t("Owl Detective"),
+      prompt:
+        "An owl wearing a monocle and top hat, solving a mystery in a misty forest at midnight",
+    },
+    {
+      text: t("Jellyfish Cathedral"),
+      prompt:
+        "A jellyfish floating gracefully in an underwater cathedral made of coral and glass",
+    },
+    {
+      text: t("Platypus River"),
+      prompt: "A platypus foraging in a river with a sunset in the background",
+    },
+    {
+      text: t("Chameleon Urban"),
+      prompt:
+        "A chameleon blending into a graffiti-covered wall in an urban jungle",
+    },
+    {
+      text: t("Tortoise Oasis"),
+      prompt:
+        "A giant tortoise slowly meandering its way to an oasis in the desert",
+    },
+    {
+      text: t("Hummingbird Morning"),
+      prompt:
+        "A hummingbird sipping nectar from a purple bougainvillea at sunrise, captured mid-flight",
+    },
+    {
+      text: t("Polar Bear"),
+      prompt:
+        "A polar bear clambering onto an iceberg to greet a friendly harbor seal as dusk falls",
+    },
+    {
+      text: t("Lemur Sunbathing"),
+      prompt:
+      "A ring-tailed lemur sunbathing on a rock in Madagascar in early morning light",
+    },
+  ];
+
+  return basePrompts;
+}
+function shuffle<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function generateStyledSuggestions(basePrompts: Suggestion[], count: number = 5): Suggestion[] {
+  const shuffledPrompts = shuffle(basePrompts);
+  const shuffledStyles = shuffle(artStyles);
+
+  return shuffledPrompts.slice(0, count).map((item, index) => ({
+    text: item.text,
+    prompt: `${item.prompt}, in the style of ${
+      shuffledStyles[index % shuffledStyles.length]
+    }`,
+  }));
 }
 
 export function PromptInput({
-  suggestions: initSuggestions,
   isLoading,
   onSubmit,
 }: PromptInputProps) {
+  const t = useGT();
   const [input, setInput] = useState("");
-  const [suggestions, setSuggestions] = useState<Suggestion[]>(initSuggestions);
+  const allSuggestions = useBasePrompts();
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+
+  useEffect(() => {
+    updateSuggestions();
+  }, []);
 
   const updateSuggestions = () => {
-    setSuggestions(getRandomSuggestions());
+    setSuggestions(generateStyledSuggestions(allSuggestions, 5));
   };
+
   const handleSuggestionSelect = (prompt: string) => {
     setInput(prompt);
     onSubmit(prompt);
@@ -38,10 +186,6 @@ export function PromptInput({
       onSubmit(input);
     }
   };
-
-  // const handleRefreshSuggestions = () => {
-  //   setCurrentSuggestions(getRandomSuggestions());
-  // };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -60,7 +204,7 @@ export function PromptInput({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Enter your prompt here"
+            placeholder={t("Enter your prompt here")}
             rows={3}
             className="text-base bg-transparent border-none p-0 resize-none placeholder:text-zinc-500 text-[#111111] focus-visible:ring-0 focus-visible:ring-offset-0"
           />
