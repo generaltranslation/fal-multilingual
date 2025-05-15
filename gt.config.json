@@ -1,10 +1,21 @@
 {
   "framework": "next-app",
-  "defaultLocale": "en",
+  "defaultLocale": "en-US",
   "locales": [
+    "es",
     "zh",
     "ru",
-    "es"
+    "hi",
+    "ar",
+    "bn",
+    "de",
+    "fr",
+    "gu",
+    "ja",
+    "mn",
+    "vi",
+    "en-GB",
+    "tr"
   ],
   "_versionId": "516ea6b6a35582a8c3e64ab296d7ea78fa100625d82d6fe1eea3b532c6f9720c"
 }
