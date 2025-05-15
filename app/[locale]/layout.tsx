@@ -4,6 +4,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { getLocale } from "gt-next/server";
 import { GTProvider } from "gt-next";
+import { getGT } from "gt-next/server";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -16,11 +17,15 @@ const geistMono = localFont({
 	display: "swap",
 });
 
-export const metadata: Metadata = {
-	title: "Fal x Vercel Image Generator",
-	description:
-		"An open-source AI image generator using the AI SDK and Fal via the Vercel Marketplace",
-};
+export async function generateMetadata(): Promise<Metadata> {
+	const t = await getGT();
+	return {
+		title: t("Fal x Vercel Image Generator"),
+		description: t("An open-source AI image generator using the AI SDK and Fal via the Vercel Marketplace"),
+	}
+}
+
+
 
 export default async function RootLayout({
 	children,

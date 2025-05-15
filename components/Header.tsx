@@ -1,7 +1,25 @@
 import Link from "next/link";
-import { Button } from "./ui/button";
 import { T } from "gt-next";
 import { LocaleSelector } from "gt-next/client";
+
+const VercelIcon = ({ size = 16 }: { size: number }) => {
+	return (
+		<svg
+			height={size}
+			strokeLinejoin="round"
+			viewBox="0 0 16 16"
+			width={size}
+			style={{ color: "currentcolor" }}
+		>
+			<path
+				fillRule="evenodd"
+				clipRule="evenodd"
+				d="M8 1L16 15H0L8 1Z"
+				fill="currentColor"
+			></path>
+		</svg>
+	);
+};
 
 export const Header = () => {
 	return (
@@ -67,19 +85,16 @@ export const Header = () => {
 						</div>
 					</div>
 					<Link
-						href={`https://vercel.com/new/clone?project-name=FAL+x+Vercel+Image+Generator&repository-name=vercel-fal-image-generator&repository-url=https%3A%2F%2Fgithub.com%2Fvercel-labs%2Fvercel-fal-image-generator&demo-title=FAL+x+Vercel+Image+Generator&demo-url=https%3A%2F%2Ffal-image-generator.vercel.app%2F&demo-description=An+open-source+AI+image+generation+app+template+built+with+Next.js%2C+the+AI+SDK+by+Vercel%2C+and+FAL&products=%5B%7B%22type%22%3A%22integration%22%2C%22protocol%22%3A%22ai%22%2C%22productSlug%22%3A%22fal%22%2C%22integrationSlug%22%3A%22fal%22%7D%5D`}
+						href={`https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgeneraltranslation%2Ffal-multilingual&env=FAL_API_KEY,GT_API_KEY,GT_PROJECT_ID`}
 						target="_blank"
+						className="flex flex-row gap-2 items-center py-1.5 px-2 rounded-md 
+                            bg-accent hover:bg-accent/80
+                            backdrop-blur-xs text-foreground shadow-sm text-sm
+                            transition-all duration-200"
 					>
-						{/* eslint-disable-next-line @next/next/no-img-element */}
-						<img
-							src="https://vercel.com/button"
-							className="hidden sm:block"
-							alt="Deploy with Vercel"
-						/>
-
-						<Button size="iconSm" className="block sm:hidden">
-							▲
-						</Button>
+						<VercelIcon size={14} />
+						<span className="hidden sm:block">Deploy with Vercel</span>
+						<span className="sm:hidden block">Deploy</span>
 					</Link>
 				</div>
 			</header>
