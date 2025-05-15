@@ -77,8 +77,8 @@ export function ModelCardCarousel({ models }: ModelCardCarouselProps) {
 			>
 				<CarouselContent>
 					{models.map((model, i) => (
-						<T id="components.modelcardcarousel.0">
-							<CarouselItem key={model.label}>
+						<T key={model.label} id="components.modelcardcarousel.0">
+							<CarouselItem>
 								<ModelSelect
 									{...model}
 									onChange={(value, providerKey) =>
@@ -102,9 +102,8 @@ export function ModelCardCarousel({ models }: ModelCardCarouselProps) {
 			<div className="absolute -bottom-6 left-0 right-0">
 				<div className="flex justify-center gap-1">
 					{models.map((_, index) => (
-						<T id="components.modelcardcarousel.1">
+						<T key={index} id="components.modelcardcarousel.1">
 							<button
-								key={index}
 								className={cn(
 									"h-1.5 rounded-full transition-all",
 									index === currentSlide

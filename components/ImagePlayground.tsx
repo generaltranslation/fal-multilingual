@@ -11,7 +11,6 @@ import {
   ProviderKey,
   ModelMode,
 } from "@/lib/provider-config";
-import { Suggestion } from "@/lib/suggestions";
 import { useImageGeneration } from "@/hooks/use-image-generation";
 import { Header } from "./Header";
 
@@ -22,11 +21,7 @@ interface ProviderInstance {
   enabled: boolean;
 }
 
-export function ImagePlayground({
-  suggestions,
-}: {
-  suggestions: Suggestion[];
-}) {
+export function ImagePlayground() {
   const {
     images,
     timings,
@@ -142,7 +137,6 @@ export function ImagePlayground({
           onToggleProviders={toggleView}
           mode={mode}
           onModeChange={handleModeChange}
-          suggestions={suggestions}
         />
         <>
           {(() => {

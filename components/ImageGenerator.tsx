@@ -63,8 +63,8 @@ export function ImageGenerator({
 									<div className="space-y-2 mt-2">
 										<Var>
 											{errors.map((err, index) => (
-												<T id="components.imagegenerator.4">
-													<Alert key={index} variant="destructive">
+												<T key={index} id="components.imagegenerator.4">
+													<Alert variant="destructive">
 														<AlertCircle className="h-4 w-4" />
 														<div className="ml-3">
 															<AlertTitle className="capitalize">

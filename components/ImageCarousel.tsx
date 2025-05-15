@@ -54,8 +54,8 @@ export function ImageCarousel({
 						const timing = timings[provider];
 
 						return (
-							<T id="components.imagecarousel.0">
-								<CarouselItem key={provider}>
+							<T key={provider} id="components.imagecarousel.0">
+								<CarouselItem>
 									<ImageDisplay
 										modelId={
 											images?.find((img) => img.provider === provider)
@@ -85,9 +85,8 @@ export function ImageCarousel({
 			<div className="absolute -bottom-6 left-0 right-0">
 				<div className="flex justify-center gap-1">
 					{providers.map((_, index) => (
-						<T id="components.imagecarousel.1">
+						<T key={index} id="components.imagecarousel.1">
 							<button
-								key={index}
 								className={cn(
 									"h-1.5 rounded-full transition-all",
 									index === currentSlide
